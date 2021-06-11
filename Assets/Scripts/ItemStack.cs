@@ -8,7 +8,7 @@ public class ItemStack
     [SerializeField] private Item item;
     [SerializeField] private int maxStackSize;
 
-    public ItemStack(Item item, int quantity = 0, int maxStackSize = 1)
+    public ItemStack(Item item = null, int quantity = 0, int maxStackSize = 1)
     {
         this.item = item;
         this.quantity = quantity;
