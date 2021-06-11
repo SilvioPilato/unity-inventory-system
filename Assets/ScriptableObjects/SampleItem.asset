@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcde6005d6584868a7d2692d9f4bb197, type: 3}
   m_Name: SampleItem
   m_EditorClassIdentifier: 
-  displayName: SampleItem
-  description: 
+  displayName: Mana Potion
+  description: This potion will heal your mana
   prefab: {fileID: 0}
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 82ed9794c93041d4e92b8b719011aa12, type: 3}

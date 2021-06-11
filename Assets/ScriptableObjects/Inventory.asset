@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Inventory
   m_EditorClassIdentifier: 
   container:
-  - quantity: 0
+  - quantity: 1
     item: {fileID: 11400000, guid: 95e03ee5fc6d6a7469bc36ce412537f2, type: 2}
-    maxStackSize: 0
+    maxStackSize: 10
   size: 8

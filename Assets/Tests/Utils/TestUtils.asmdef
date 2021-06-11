@@ -1,0 +1,16 @@
+{
+    "name": "TestUtils",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4ee535d2d58737849a3621f270becb45"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,5 +1,6 @@
 using System.Collections;
 using NUnit.Framework;
+using Tests.Utils;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 public class GridInventoryTest
 {
     [UnityTest]
-    public IEnumerator GridInventoryCanGetGridGroup()
+    public IEnumerator CanGetGridGroup()
     {
         var go = new GameObject();
         go.AddComponent<GridInventory>();
@@ -17,17 +18,14 @@ public class GridInventoryTest
     }
     
     [UnityTest]
-    public IEnumerator GridInventoryCanGetSetupInventorySlot()
+    public IEnumerator CanGetSetupInventorySlots()
     {
-        var size = 8;
         var go = new GameObject();
         var gridInventory = go.AddComponent<GridInventory>();
-        gridInventory.inventoryContainer = ScriptableObject.CreateInstance<InventoryContainer>();
-        gridInventory.inventoryContainer.Size = size;
+        gridInventory.inventoryContainer = An.InventoryContainer.WithSize(8);
         gridInventory.slotPrefab = new GameObject();
-        gridInventory.SetupInventory();
         yield return null;
         var slots = go.transform.GetComponentsInChildren<InventorySlotGUI>();
-        Assert.That(slots, Has.Exactly(size).TypeOf(typeof(InventorySlotGUI)));
+        Assert.That(slots, Has.Exactly(8).TypeOf(typeof(InventorySlotGUI)));
     }
 }
