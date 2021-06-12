@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(GridLayoutGroup))]
-public class GridInventory : MonoBehaviour
+public class InventoryGUI : MonoBehaviour
 {
     public InventoryContainer inventoryContainer;
     public GameObject slotPrefab;

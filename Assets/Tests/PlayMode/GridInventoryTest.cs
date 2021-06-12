@@ -11,7 +11,7 @@ public class GridInventoryTest
     public IEnumerator CanGetGridGroup()
     {
         var go = new GameObject();
-        go.AddComponent<GridInventory>();
+        go.AddComponent<InventoryGUI>();
         yield return null;
         var gridGroup = go.GetComponent<GridLayoutGroup>();
         Assert.IsNotNull(gridGroup);
@@ -21,7 +21,7 @@ public class GridInventoryTest
     public IEnumerator CanGetSetupInventorySlots()
     {
         var go = new GameObject();
-        var gridInventory = go.AddComponent<GridInventory>();
+        var gridInventory = go.AddComponent<InventoryGUI>();
         gridInventory.inventoryContainer = An.InventoryContainer.WithSize(8);
         gridInventory.slotPrefab = new GameObject();
         yield return null;
