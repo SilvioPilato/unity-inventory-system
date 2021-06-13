@@ -19,8 +19,7 @@ namespace Tests.Utils
         private InventoryContainer Build()
         {
             var container = ScriptableObject.CreateInstance<InventoryContainer>();
-            container.Size = _size;
-            
+
             foreach (var stack in _stacks)
             {
                 container.AddNew(stack);

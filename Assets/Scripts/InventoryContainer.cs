@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -7,27 +8,49 @@ using UnityEngine;
 public class InventoryContainer: ScriptableObject
 {
     private const int SlotIndexNone = -1;
-    [SerializeField]
-    private List<ItemStack> container = new List<ItemStack>();
     [SerializeField] 
     private int size;
-    public List<ItemStack> Container => container;
-    public int Size
+    [SerializeField]
+    private ItemStack[] container;
+    public ItemStack[] Container => container;
+    public int Size => size;
+
+    private void Awake()
     {
-        get => size;
-        set => size = value;
+        container = new ItemStack[Size];
     }
 
     public int AddNew(ItemStack itemStack)
     {
-        if (container.Count >= Size) return SlotIndexNone;
-        container.Add(itemStack);
-        return container.IndexOf(itemStack);
+        if (IsInventoryFull()) return SlotIndexNone;
+        var index = GETFirstEmptySlotIndex();
+        Container[index] = itemStack;
+        return index;
+    }
+
+    public void AddAt(int index, ItemStack itemStack)
+    {
+        if (IsInventoryFull()) return;
+        if (container[index].Item != null) return;
+
+        container[index] = itemStack;
+    }
+
+    private int GETFirstEmptySlotIndex()
+    {
+        var firstEmpty = Container.First(itemStack => itemStack.Item == null);
+        return Array.IndexOf(container, firstEmpty);
+    }
+
+    private bool IsInventoryFull()
+    {
+        return GETFirstEmptySlotIndex() == SlotIndexNone;
     }
     
     public int Stash(ItemStack itemStack)
     {
-        var availableStacks = container.FindAll(
+        var availableStacks = Array.FindAll(
+            Container,
             stack => IsStackAvailable(stack, itemStack)
         );
         var remainingQuantity = PileOn(availableStacks, itemStack);
@@ -40,15 +63,15 @@ public class InventoryContainer: ScriptableObject
     [CanBeNull]
     public ItemStack Remove(int itemIndex, int amount = 0)
     {
-        if (itemIndex >= container.Count) return null;
+        if (itemIndex >= Container.Length) return null;
         
-        var stack = container[itemIndex];
+        var stack = Container[itemIndex];
         if (amount == 0 || amount >= stack.Quantity )
         {
-            container.RemoveAt(itemIndex);
+            Container[itemIndex] = new ItemStack();
             return stack;
         }
-        container[itemIndex].Quantity -= amount;
+        Container[itemIndex].Quantity -= amount;
         return new ItemStack(stack.Item) {MaxStackSize = stack.MaxStackSize, Quantity = amount};
     }
     
@@ -70,8 +93,8 @@ public class InventoryContainer: ScriptableObject
             }
 
             var pileQuantity = Math.Min(spaceAvailable, remaining);
-            var index = container.IndexOf(stack);
-            container[index].Quantity += pileQuantity;
+            var index = Array.IndexOf(Container, stack);
+            Container[index].Quantity += pileQuantity;
             remaining -= pileQuantity;
 
             if (remaining <= 0)

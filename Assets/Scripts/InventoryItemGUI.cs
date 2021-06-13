@@ -6,9 +6,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    public Sprite icon;
+    private Sprite icon;
     private int currentSlotIndex = -1;
     public Image image;
+    private Vector2 iconSize;
     public Sprite Icon
     {
         get => icon;
@@ -19,6 +20,12 @@ public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
     {
         get => currentSlotIndex;
         set => currentSlotIndex = value;
+    }
+
+    public Vector2 IconSize
+    {
+        get => iconSize;
+        set => iconSize = value;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -33,12 +40,19 @@ public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void EnableIcon()
     {
+        UpdateIcon();
         image.enabled = true;
     }
 
     public void DisableIcon()
     {
         image.enabled = false;
+    }
+
+    private void UpdateIcon()
+    {
+        image.sprite = Icon;
+        SetIconSize(iconSize);
     }
 
     public void SetIconSize(Vector2 sizeInPixels)
@@ -50,5 +64,10 @@ public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
     {
         image = GetComponent<Image>();
         DisableIcon();
+    }
+
+    private void Start()
+    {
+        UpdateIcon();
     }
 }

@@ -8,6 +8,7 @@ public class InventorySlotGUI: MonoBehaviour, IDropHandler
     public event Action<int, int> OnItemDrop;
     public void OnDrop(PointerEventData eventData)
     {
+        Debug.Log("item dropped", this);
         var inventoryItem = eventData.pointerDrag.GetComponent<InventoryItemGUI>();
         if (inventoryItem == null) return;
         OnItemDrop?.Invoke(inventoryItem.CurrentSlotIndex, index);

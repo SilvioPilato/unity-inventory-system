@@ -9,19 +9,15 @@ public class InventoryGUI : MonoBehaviour
     public InventoryContainer inventoryContainer;
     public GameObject slotPrefab;
     public Vector2 iconSize = new Vector2(32, 32);
-    public List<InventorySlotGUI> slots = new List<InventorySlotGUI>();
-
-    public void Start()
-    {
-        SetupInventory();
-    }
-
+    public InventorySlotGUI[] slots;
+    public InventoryItemGUI[] items;
+    
     private void UpdateInventory()
     {
         var size = (inventoryContainer != null) ? inventoryContainer.Size : 0;
         for (var i = 0; i < size; i++)
         {
-            UpdateSlot(slots[i]);
+            UpdateItemAt(i);
         }
     }
 
@@ -31,9 +27,9 @@ public class InventoryGUI : MonoBehaviour
         for (var index = 0; index < size; index++)
         { 
             CreateSlotAt(index);
-            
+            SetupSlot(slots[index]);
+            UpdateItemAt(index);
         }
-        UpdateInventory();
     }
 
     private void TearDownInventory()
@@ -53,38 +49,62 @@ public class InventoryGUI : MonoBehaviour
         var inventorySlotGUI = slotGo.AddComponent<InventorySlotGUI>();
         inventorySlotGUI.OnItemDrop+=MoveItems;
         inventorySlotGUI.index = index;
-        
-        var itemIcon = Instantiate(new GameObject(),slotGo.transform);
-        var inventoryItemGUI = itemIcon.AddComponent<InventoryItemGUI>();
-        inventoryItemGUI.CurrentSlotIndex = index;
-        
-        slots.Add(inventorySlotGUI);
+        slots[index] = inventorySlotGUI;
     }
 
-    private void UpdateSlot(InventorySlotGUI slot)
+    private void SetupSlot(InventorySlotGUI slot)
     {
         var slotGo = slot.gameObject;
         var slotIndex = slot.index;
-        
-        var stack = inventoryContainer.Container.Count > slotIndex 
-            ? inventoryContainer.Container[slotIndex] 
-            : null;
-        var item = stack?.Item;
-        
-        if (item == null) return;
-        
         var itemIcon = Instantiate(new GameObject(),slotGo.transform);
         var inventoryItemGUI = itemIcon.AddComponent<InventoryItemGUI>();
-        inventoryItemGUI.Icon = item.Sprite;
-        inventoryItemGUI.EnableIcon();
+        inventoryItemGUI.IconSize = iconSize;
+        inventoryItemGUI.CurrentSlotIndex = slotIndex;
+        items[slotIndex] = inventoryItemGUI;
     }
 
-    private static void MoveItems(int fromSlotIndex, int toSlotIndex)
+    private void UpdateItemAt(int i)
     {
-        Debug.Log($"Moved item from slot {fromSlotIndex} to slot {toSlotIndex}");
+        var stack = inventoryContainer.Size > i 
+            ? inventoryContainer.Container[i] 
+            : null;
+        var item = stack?.Item;
+        if (item == null)
+        {
+            items[i].Icon = null;
+            items[i].DisableIcon();
+            return;
+        }
+        items[i].Icon = item.Sprite;
+        items[i].EnableIcon();
+    }
+    
+
+    private void MoveItems(int fromSlotIndex, int toSlotIndex)
+    {
+        if (!IsIndexInSlotBounds(fromSlotIndex) || !IsIndexInSlotBounds(toSlotIndex)) return;
+        var stack = inventoryContainer.Remove(fromSlotIndex);
+        inventoryContainer.AddAt(toSlotIndex, stack);
+        UpdateInventory();
     }
 
-    private void OnDestroy()
+    private bool IsIndexInSlotBounds(int index)
+    {
+        return index < slots.Length && index >= 0;
+    }
+
+    private void Awake()
+    {
+        slots = new InventorySlotGUI[inventoryContainer.Size];
+        items = new InventoryItemGUI[inventoryContainer.Size];
+    }
+
+    private void OnEnable()
+    {
+        SetupInventory();
+    }
+
+    private void OnDisable()
     {
         TearDownInventory();
     }
