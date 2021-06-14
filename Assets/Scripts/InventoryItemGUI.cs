@@ -4,33 +4,22 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
+[RequireComponent(typeof(CanvasGroup))]
 public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    private Sprite icon;
-    private int currentSlotIndex = -1;
     public Image image;
-    private Vector2 iconSize;
-    public Sprite Icon
-    {
-        get => icon;
-        set => icon = value;
-    }
 
-    public int CurrentSlotIndex
-    {
-        get => currentSlotIndex;
-        set => currentSlotIndex = value;
-    }
+    public Sprite Icon { get; set; }
 
-    public Vector2 IconSize
-    {
-        get => iconSize;
-        set => iconSize = value;
-    }
+    public int CurrentSlotIndex { get; set; } = -1;
 
+    public Vector2 IconSize { get; set; }
+    private CanvasGroup canvasGroup;
+    
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = eventData.position;
+        canvasGroup.blocksRaycasts = false;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -52,16 +41,17 @@ public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
     private void UpdateIcon()
     {
         image.sprite = Icon;
-        SetIconSize(iconSize);
+        SetIconSize(IconSize);
     }
 
-    public void SetIconSize(Vector2 sizeInPixels)
+    private void SetIconSize(Vector2 sizeInPixels)
     {
         image.rectTransform.sizeDelta = sizeInPixels;
     }
 
     private void Awake()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
         image = GetComponent<Image>();
         DisableIcon();
     }
