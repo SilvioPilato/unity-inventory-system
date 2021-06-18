@@ -75,10 +75,12 @@ public class InventoryGUI : MonoBehaviour
         {
             items[i].Icon = null;
             items[i].DisableIcon();
+            slots[i].DisableText();
             return;
         }
         items[i].Icon = item.Sprite;
         slots[i].SetText(stack.Quantity.ToString());
+        slots[i].EnableText();
         items[i].EnableIcon();
     }
     

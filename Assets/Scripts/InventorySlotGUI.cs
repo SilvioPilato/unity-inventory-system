@@ -1,5 +1,4 @@
 ﻿using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -20,5 +19,16 @@ public class InventorySlotGUI: MonoBehaviour, IDropHandler
     {
         if (slotTextGUI == null) return;
         slotTextGUI.SetText(text);
+    }
+
+    public void EnableText()
+    {
+        if (slotTextGUI == null) return;
+        slotTextGUI.gameObject.SetActive(true);
+    }
+    public void DisableText()
+    {
+        if (slotTextGUI == null) return;
+        slotTextGUI.gameObject.SetActive(false);
     }
 }

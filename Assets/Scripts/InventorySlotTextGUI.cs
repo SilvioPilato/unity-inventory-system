@@ -2,18 +2,18 @@
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(TextMeshPro))]
+[RequireComponent(typeof(TextMeshProUGUI))]
 public class InventorySlotTextGUI: MonoBehaviour
 {
-    private TextMeshPro _textMeshPro;
+    private TextMeshProUGUI _textMeshPro;
 
     private void Awake()
     {
-        _textMeshPro = GetComponent<TextMeshPro>();
+        _textMeshPro = GetComponent<TextMeshProUGUI>();
     }
 
     public void SetText(string text)
     {
-        _textMeshPro.text = text;
+        _textMeshPro.SetText(text);
     }
 }
