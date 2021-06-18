@@ -1,4 +1,5 @@
 ﻿using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -88,8 +89,9 @@ public class InventoryGUI : MonoBehaviour
     private void MoveItems(int fromSlotIndex, int toSlotIndex)
     {
         if (!IsIndexInSlotBounds(fromSlotIndex) || !IsIndexInSlotBounds(toSlotIndex)) return;
-        var stack = inventoryContainer.Remove(fromSlotIndex);
-        inventoryContainer.AddAt(toSlotIndex, stack);
+        var stack = inventoryContainer.Container[fromSlotIndex];
+        var remaining = inventoryContainer.AddAt(toSlotIndex, stack);
+        inventoryContainer.Remove(fromSlotIndex, stack.Quantity - remaining);
         UpdateInventory();
     }
 

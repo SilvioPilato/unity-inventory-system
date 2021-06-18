@@ -28,12 +28,15 @@ public class InventoryContainer: ScriptableObject
         return index;
     }
 
-    public void AddAt(int index, ItemStack itemStack)
+    public int AddAt(int index, ItemStack itemStack)
     {
-        if (IsInventoryFull()) return;
-        if (container[index].Item != null) return;
-
+        if (IsInventoryFull()) return itemStack.Quantity;
+        if (container[index].Item != null)
+            return container[index].Item.Equals(itemStack.Item)
+                ? AddOnStack(ref container[index], itemStack.Quantity)
+                : itemStack.Quantity;
         container[index] = itemStack;
+        return 0;
     }
 
     private int GETFirstEmptySlotIndex()
@@ -66,7 +69,7 @@ public class InventoryContainer: ScriptableObject
         if (itemIndex >= Container.Length) return null;
         
         var stack = Container[itemIndex];
-        if (amount == 0 || amount >= stack.Quantity )
+        if (amount >= stack.Quantity )
         {
             Container[itemIndex] = new ItemStack();
             return stack;
@@ -86,23 +89,26 @@ public class InventoryContainer: ScriptableObject
         var remaining = stackToPile.Quantity;
         foreach (var stack in availableStacks)
         {
-            var spaceAvailable = stack.MaxStackSize - stack.Quantity;
-            if (spaceAvailable <= 0)
-            {
-                continue;
-            }
-
-            var pileQuantity = Math.Min(spaceAvailable, remaining);
             var index = Array.IndexOf(Container, stack);
-            Container[index].Quantity += pileQuantity;
-            remaining -= pileQuantity;
-
-            if (remaining <= 0)
-            {
-                break;
-            }
+            remaining = AddOnStack(ref Container[index], remaining);
+            if (remaining <= 0) break;
         }
 
         return remaining;
+    }
+
+    private static int AddOnStack(ref ItemStack stackToFill, int quantity)
+    {
+        var remaining = quantity;
+        var spaceAvailable = stackToFill.MaxStackSize - stackToFill.Quantity;
+        if (spaceAvailable <= 0)
+        {
+            return remaining;
+        }
+        var pileQuantity = Math.Min(spaceAvailable, remaining);
+        stackToFill.Quantity += pileQuantity;
+        remaining -= pileQuantity;
+
+        return remaining > 0 ? remaining : 0;
     }
 }
