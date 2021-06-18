@@ -58,6 +58,7 @@ public class InventoryGUI : MonoBehaviour
         var slotIndex = slot.index;
         var itemIcon = Instantiate(new GameObject(),slotGo.transform);
         var inventoryItemGUI = itemIcon.AddComponent<InventoryItemGUI>();
+        inventoryItemGUI.OnClick += OnItemClick;
         inventoryItemGUI.IconSize = iconSize;
         inventoryItemGUI.CurrentSlotIndex = slotIndex;
         items[slotIndex] = inventoryItemGUI;
@@ -107,5 +108,14 @@ public class InventoryGUI : MonoBehaviour
     private void OnDisable()
     {
         TearDownInventory();
+    }
+
+    private void OnItemClick(InventoryItemGUI itemGUI)
+    {
+        var index = itemGUI.CurrentSlotIndex;
+        if (inventoryContainer.Size < index) return;
+        var item = inventoryContainer.Container[index]?.Item;
+        if (item == null) return;
+        item.Use();
     }
 }

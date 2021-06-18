@@ -3,30 +3,31 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(CanvasGroup))]
-public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
+public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     public Image image;
-
     public Sprite Icon { get; set; }
-
     public int CurrentSlotIndex { get; set; } = -1;
-
+    public event Action<InventoryItemGUI> OnClick;
+    public PointerEventData.InputButton onClickButton = PointerEventData.InputButton.Right;
     public Vector2 IconSize { get; set; }
-    private CanvasGroup canvasGroup;
+    private CanvasGroup _canvasGroup;
     
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = eventData.position;
-        canvasGroup.blocksRaycasts = false;
+        _canvasGroup.blocksRaycasts = false;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.localPosition = Vector3.zero;
+        _canvasGroup.blocksRaycasts = true;
     }
-
+    
     public void EnableIcon()
     {
         UpdateIcon();
@@ -51,7 +52,7 @@ public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
 
     private void Awake()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        _canvasGroup = GetComponent<CanvasGroup>();
         image = GetComponent<Image>();
         DisableIcon();
     }
@@ -59,5 +60,11 @@ public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler
     private void Start()
     {
         UpdateIcon();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button != onClickButton) return;
+        OnClick?.Invoke(this);
     }
 }

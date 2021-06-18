@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 8
   container:
-  - quantity: 0
-    item: {fileID: 0}
-    maxStackSize: 0
   - quantity: 1
     item: {fileID: 11400000, guid: 95e03ee5fc6d6a7469bc36ce412537f2, type: 2}
-    maxStackSize: 1
+    maxStackSize: 10
+  - quantity: 1
+    item: {fileID: 11400000, guid: 95e03ee5fc6d6a7469bc36ce412537f2, type: 2}
+    maxStackSize: 10
   - quantity: 0
     item: {fileID: 0}
     maxStackSize: 0

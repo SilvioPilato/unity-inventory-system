@@ -392,7 +392,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -596,6 +596,34 @@ PrefabInstance:
     - target: {fileID: 5590423842968246503, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}
       propertyPath: m_Padding.m_Left
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638588614544149204, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296122545597874459, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296122545597874459, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296122545597874459, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296122545597874459, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296122545597874459, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296122545597874459, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09862ba8ce627cb4ab6ce6ea58483a0a, type: 3}

@@ -37,4 +37,9 @@ public class Item: ScriptableObject
         get => description;
         set => description = value;
     }
+
+    public virtual void Use()
+    {
+        Debug.Log("Used base item");
+    }
 }

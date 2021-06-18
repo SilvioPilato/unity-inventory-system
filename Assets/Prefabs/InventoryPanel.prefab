@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5590423842968246503}
   - component: {fileID: 5590423842968246424}
   m_Layer: 5
-  m_Name: InventoryComponent
+  m_Name: InventoryPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,3 +115,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryContainer: {fileID: 11400000, guid: a9156c66cbf11c94fbbf4d81751cbca9, type: 2}
   slotPrefab: {fileID: 589194794746448187, guid: ea2479bd225d3704db8aa7b106524b5d, type: 3}
+  iconSize: {x: 32, y: 32}
+  slots: []
+  items: []
