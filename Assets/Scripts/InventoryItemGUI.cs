@@ -15,7 +15,7 @@ public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler, IPo
     public PointerEventData.InputButton onClickButton = PointerEventData.InputButton.Right;
     public Vector2 IconSize { get; set; }
     private CanvasGroup _canvasGroup;
-    
+
     public void OnDrag(PointerEventData eventData)
     {
         transform.position = eventData.position;

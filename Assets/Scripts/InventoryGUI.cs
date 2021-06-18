@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +7,7 @@ public class InventoryGUI : MonoBehaviour
 {
     public InventoryContainer inventoryContainer;
     public GameObject slotPrefab;
+    public GameObject itemPrefab;
     public Vector2 iconSize = new Vector2(32, 32);
     public InventorySlotGUI[] slots;
     public InventoryItemGUI[] items;
@@ -46,7 +46,7 @@ public class InventoryGUI : MonoBehaviour
     {
         var slotGo = Instantiate(slotPrefab,transform);
         slotGo.name = $"InventorySlot{index}";
-        var inventorySlotGUI = slotGo.AddComponent<InventorySlotGUI>();
+        var inventorySlotGUI = slotGo.GetComponent<InventorySlotGUI>();
         inventorySlotGUI.OnItemDrop+=MoveItems;
         inventorySlotGUI.index = index;
         slots[index] = inventorySlotGUI;
@@ -56,8 +56,9 @@ public class InventoryGUI : MonoBehaviour
     {
         var slotGo = slot.gameObject;
         var slotIndex = slot.index;
-        var itemIcon = Instantiate(new GameObject(),slotGo.transform);
-        var inventoryItemGUI = itemIcon.AddComponent<InventoryItemGUI>();
+        var itemIcon = Instantiate(itemPrefab,slotGo.transform);
+        var inventoryItemGUI = itemIcon.GetComponent<InventoryItemGUI>();
+        if (inventoryItemGUI == null) return;
         inventoryItemGUI.OnClick += OnItemClick;
         inventoryItemGUI.IconSize = iconSize;
         inventoryItemGUI.CurrentSlotIndex = slotIndex;
@@ -77,6 +78,7 @@ public class InventoryGUI : MonoBehaviour
             return;
         }
         items[i].Icon = item.Sprite;
+        slots[i].SetText(stack.Quantity.ToString());
         items[i].EnableIcon();
     }
     

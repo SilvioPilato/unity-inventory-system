@@ -115,6 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryContainer: {fileID: 11400000, guid: a9156c66cbf11c94fbbf4d81751cbca9, type: 2}
   slotPrefab: {fileID: 589194794746448187, guid: ea2479bd225d3704db8aa7b106524b5d, type: 3}
+  itemPrefab: {fileID: 151779187398206044, guid: 5b56835fe4380ac4f85beac3b40aafbd, type: 3}
   iconSize: {x: 32, y: 32}
   slots: []
   items: []
