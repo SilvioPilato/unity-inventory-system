@@ -63,6 +63,11 @@ public class InventoryContainer: ScriptableObject
         return index == SlotIndexNone ? remainingQuantity : 0;
     }
 
+    public void OrderBy(IComparer<ItemStack> comparer)
+    {
+        Array.Sort(container, comparer);
+    }
+
     [CanBeNull]
     public ItemStack Remove(int itemIndex, int amount = 0)
     {

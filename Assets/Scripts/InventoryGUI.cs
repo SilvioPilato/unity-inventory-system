@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEditor.SceneManagement;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +11,9 @@ public class InventoryGUI : MonoBehaviour
     public Vector2 iconSize = new Vector2(32, 32);
     public InventorySlotGUI[] slots;
     public InventoryItemGUI[] items;
+    public Action<ItemStack> OnItemMouseEnter;
+    public Action<ItemStack> OnItemMouseExit;
+    public Action<ItemStack> OnItemMouseClick;
     
     private void UpdateInventory()
     {
@@ -60,7 +62,9 @@ public class InventoryGUI : MonoBehaviour
         var itemIcon = Instantiate(itemPrefab,slotGo.transform);
         var inventoryItemGUI = itemIcon.GetComponent<InventoryItemGUI>();
         if (inventoryItemGUI == null) return;
-        inventoryItemGUI.OnClick += OnItemClick;
+        inventoryItemGUI.OnClick += ONItemClick;
+        inventoryItemGUI.OnMouseEnter += ONItemHoverEnter;
+        inventoryItemGUI.OnMouseExit += ONItemHoverExit;
         inventoryItemGUI.IconSize = iconSize;
         inventoryItemGUI.CurrentSlotIndex = slotIndex;
         items[slotIndex] = inventoryItemGUI;
@@ -116,12 +120,29 @@ public class InventoryGUI : MonoBehaviour
         TearDownInventory();
     }
 
-    private void OnItemClick(InventoryItemGUI itemGUI)
+    private void ONItemClick(InventoryItemGUI itemGUI)
     {
         var index = itemGUI.CurrentSlotIndex;
         if (inventoryContainer.Size < index) return;
         var item = inventoryContainer.Container[index]?.Item;
         if (item == null) return;
-        item.Use();
+        OnItemMouseClick?.Invoke(inventoryContainer.Container[index]);
+    }
+
+    private void ONItemHoverEnter(InventoryItemGUI itemGUI)
+    {
+        var index = itemGUI.CurrentSlotIndex;
+        if (inventoryContainer.Size < index) return;
+        var item = inventoryContainer.Container[index]?.Item;
+        if (item == null) return;
+        OnItemMouseEnter?.Invoke(inventoryContainer.Container[index]);
+    }
+    private void ONItemHoverExit(InventoryItemGUI itemGUI)
+    {
+        var index = itemGUI.CurrentSlotIndex;
+        if (inventoryContainer.Size < index) return;
+        var item = inventoryContainer.Container[index]?.Item;
+        if (item == null) return;
+        OnItemMouseExit?.Invoke(inventoryContainer.Container[index]);
     }
 }

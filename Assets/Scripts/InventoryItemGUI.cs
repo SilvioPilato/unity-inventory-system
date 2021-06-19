@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(CanvasGroup))]
-public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClickHandler
+public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Image image;
     public Sprite Icon { get; set; }
     public int CurrentSlotIndex { get; set; } = -1;
     public event Action<InventoryItemGUI> OnClick;
+    public event Action<InventoryItemGUI> OnMouseEnter;
+    public event Action<InventoryItemGUI> OnMouseExit;
     public PointerEventData.InputButton onClickButton = PointerEventData.InputButton.Right;
     public Vector2 IconSize { get; set; }
     private CanvasGroup _canvasGroup;
@@ -66,5 +68,15 @@ public class InventoryItemGUI: MonoBehaviour, IDragHandler, IEndDragHandler, IPo
     {
         if (eventData.button != onClickButton) return;
         OnClick?.Invoke(this);
+    }
+    
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        OnMouseEnter?.Invoke(this);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        OnMouseExit?.Invoke(this);
     }
 }
